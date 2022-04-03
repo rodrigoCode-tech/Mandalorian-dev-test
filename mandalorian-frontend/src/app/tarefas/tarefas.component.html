@@ -1,0 +1,79 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Tarefas</li>
+    </ol>
+</nav>
+<div class="container">
+
+    <div class="card add-departamento">      
+        <h5 class="card-header" *ngIf="tarefa.isEdit">Atualizar Tarefa</h5>  
+        <h5 class="card-header" *ngIf="!tarefa.isEdit">Adicionar Tarefa</h5>       
+        <div class="card-body">
+          <form id="add-form" (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate>      
+            <div class="alert alert-danger" role="alert" [hidden]="!isError">
+              {{msgErro}}
+            </div>    
+  
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input type="text" [(ngModel)]="tarefa.titulo" id="titulo" name="titulo" #titulo="ngModel" required class="form-control" 
+                    [ngClass]="{ 'is-invalid': f.submitted && titulo.invalid }" placeholder="Digite o titulo">
+                    <div *ngIf="f.submitted && titulo.invalid" class="invalid-feedback">
+                        <div *ngIf="titulo.errors?.['required']">Título é obrigatório</div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col">              
+                <div class="form-group">
+                  <label for="anotacao">Anotação</label>
+                  <textarea cols="40" rows="5" [(ngModel)]="tarefa.anotacao" id="anotacao" name="anotacao" #anotacao="ngModel" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && anotacao.invalid }" placeholder="Digita uma anotacão">
+                    </textarea>
+                </div>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col">
+                <div class="form-group">         
+                  <button type="submit" class="btn btn-primary btn-add-departamento" style="margin-right: 5px;">Salvar</button>
+                  <button type="reset" class="btn btn-secondary btn-add-departamento" (click)="cleanForm(f)">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    
+    <div class="card">
+        <h5 class="card-header">Tarefas</h5>
+        <div class="card-body">
+            <table class="table">
+                <thead> 
+                    <tr>
+                        <th>Título</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let t of tarefas">
+                        <td>{{t}}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" (click)="edit(t)">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm ml-1" (click)="delete(t)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
